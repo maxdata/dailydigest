@@ -4,6 +4,10 @@ The two main challenges in using a CMS for newsletters are managing links and ha
 
 # Data schema
 
+# Add landing page without login
+
+# Add pages for SEO
+
 # Link management
 
 # Newsletter
