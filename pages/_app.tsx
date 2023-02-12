@@ -15,6 +15,7 @@ import { ChakraUIInferencer } from "@pankod/refine-inferencer/chakra-ui";
 // import { authProvider } from "src/authProvider";
 import { supabaseClient } from "src/utility";
 import { Title, Sider, Layout, Header } from "@components/layout";
+import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const authProvider: AuthProvider = {
@@ -80,10 +81,59 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <ChakraProvider theme={refineTheme}>
       <Refine
-        routerProvider={routerProvider}
         dataProvider={dataProvider(supabaseClient)}
         authProvider={authProvider}
-        LoginPage={AuthPage}
+        // routerProvider={routerProvider}        
+        routerProvider={{
+          ...routerProvider,
+          routes: [
+              {
+                  path: "/register",
+                  element: (
+                      <AuthPage
+                          type="register"
+                          providers={[
+                              {
+                                  name: "google",
+                                  label: "Sign in with Google",
+                                  icon: <IconBrandGoogle />,
+                              },
+                              {
+                                  name: "github",
+                                  label: "Sign in with GitHub",
+                                  icon: <IconBrandGithub />,
+                              },
+                          ]}
+                      />
+                  ),
+              },
+              {
+                  path: "/forgot-password",
+                  element: <AuthPage type="forgotPassword" />,
+              },
+              {
+                  path: "/update-password",
+                  element: <AuthPage type="updatePassword" />,
+              },
+          ],
+        }}
+        // LoginPage={AuthPage}
+        LoginPage={() => (
+          <AuthPage
+              providers={[
+                  {
+                      name: "google",
+                      label: "Sign in with Google",
+                      icon: <IconBrandGoogle />,
+                  },
+                  {
+                      name: "github",
+                      label: "Sign in with GitHub",
+                      icon: <IconBrandGithub />,
+                  },
+              ]}
+          />
+      )}
         notificationProvider={notificationProvider()}
         ReadyPage={ReadyPage}
         catchAll={<ErrorComponent />}
