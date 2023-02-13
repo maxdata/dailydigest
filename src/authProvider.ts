@@ -1,9 +1,8 @@
 import { AuthProvider } from "@pankod/refine-core";
-import nookies from "nookies";
 
-import { supabaseClient } from "./utility";
+import { supabaseClient } from "utility";
 
-export const authProvider: AuthProvider = {
+const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     const { data, error } = await supabaseClient.auth.signInWithPassword({
       email,
@@ -14,19 +13,57 @@ export const authProvider: AuthProvider = {
       return Promise.reject(error);
     }
 
-    if (data?.session) {
-      nookies.set(null, "token", data.session.access_token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: "/",
-      });
+    if (data?.user) {
       return Promise.resolve();
     }
 
     // for third-party login
     return Promise.resolve(false);
   },
+  register: async ({ email, password }) => {
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      return Promise.reject(error);
+    }
+
+    if (data) {
+      return Promise.resolve();
+    }
+  },
+  forgotPassword: async ({ email }) => {
+    const { data, error } = await supabaseClient.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo: `${window.location.origin}/update-password`,
+      }
+    );
+
+    if (error) {
+      return Promise.reject(error);
+    }
+
+    if (data) {
+      return Promise.resolve();
+    }
+  },
+  updatePassword: async ({ password }) => {
+    const { data, error } = await supabaseClient.auth.updateUser({
+      password,
+    });
+
+    if (error) {
+      return Promise.reject(error);
+    }
+
+    if (data) {
+      return Promise.resolve("/");
+    }
+  },
   logout: async () => {
-    nookies.destroy(null, "token");
     const { error } = await supabaseClient.auth.signOut();
 
     if (error) {
@@ -36,12 +73,11 @@ export const authProvider: AuthProvider = {
     return Promise.resolve("/");
   },
   checkError: () => Promise.resolve(),
-  checkAuth: async (ctx) => {
-    const { token } = nookies.get(ctx);
-    const { data } = await supabaseClient.auth.getUser(token);
-    const { user } = data;
+  checkAuth: async () => {
+    const { data } = await supabaseClient.auth.getSession();
+    const { session } = data;
 
-    if (user) {
+    if (session) {
       return Promise.resolve();
     }
 
@@ -65,3 +101,5 @@ export const authProvider: AuthProvider = {
     }
   },
 };
+
+export default authProvider;
