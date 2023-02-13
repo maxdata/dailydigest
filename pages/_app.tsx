@@ -1,6 +1,7 @@
 import React from "react";
 import { AppProps } from "next/app";
 import { AuthProvider, Refine } from "@pankod/refine-core";
+// import { authProvider } from "src/authProvider";
 import {
   AuthPage,
   notificationProvider,
@@ -10,9 +11,9 @@ import {
   ErrorComponent,
 } from "@pankod/refine-chakra-ui";
 import routerProvider from "@pankod/refine-nextjs-router";
+// import routerProvider from "@pankod/refine-react-router-v6";
 import { dataProvider } from "@pankod/refine-supabase";
 import { ChakraUIInferencer } from "@pankod/refine-inferencer/chakra-ui";
-// import { authProvider } from "src/authProvider";
 import { supabaseClient } from "src/utility";
 import { Title, Sider, Layout, Header } from "@components/layout";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons";
@@ -83,40 +84,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       <Refine
         dataProvider={dataProvider(supabaseClient)}
         authProvider={authProvider}
-        // routerProvider={routerProvider}        
-        routerProvider={{
-          ...routerProvider,
-          routes: [
-              {
-                  path: "/register",
-                  element: (
-                      <AuthPage
-                          type="register"
-                          providers={[
-                              {
-                                  name: "google",
-                                  label: "Sign in with Google",
-                                  icon: <IconBrandGoogle />,
-                              },
-                              {
-                                  name: "github",
-                                  label: "Sign in with GitHub",
-                                  icon: <IconBrandGithub />,
-                              },
-                          ]}
-                      />
-                  ),
-              },
-              {
-                  path: "/forgot-password",
-                  element: <AuthPage type="forgotPassword" />,
-              },
-              {
-                  path: "/update-password",
-                  element: <AuthPage type="updatePassword" />,
-              },
-          ],
-        }}
+        routerProvider={routerProvider}                
         // LoginPage={AuthPage}
         LoginPage={() => (
           <AuthPage
@@ -126,14 +94,14 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                       label: "Sign in with Google",
                       icon: <IconBrandGoogle />,
                   },
-                  {
-                      name: "github",
-                      label: "Sign in with GitHub",
-                      icon: <IconBrandGithub />,
-                  },
+                  // {
+                  //     name: "github",
+                  //     label: "Sign in with GitHub",
+                  //     icon: <IconBrandGithub />,
+                  // },
               ]}
           />
-      )}
+        )}
         notificationProvider={notificationProvider()}
         ReadyPage={ReadyPage}
         catchAll={<ErrorComponent />}
