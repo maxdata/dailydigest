@@ -8,9 +8,9 @@ export const Title: React.FC<TitleProps> = ({ collapsed }) => {
   return (
     <ChakraLink as={Link} to="/">
       {collapsed ? (
-        <img src="/refine-collapsed.svg" alt="Refine" />
+        <img src="/dailydigest-collapsed.svg" alt="DailyDigest" />
       ) : (
-        <img src="/refine.svg" alt="Refine" width="140px" />
+        <img src="/dailydigest.svg" alt="DailyDigest" width="140px" />
       )}
     </ChakraLink>
   );

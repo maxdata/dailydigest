@@ -51,10 +51,10 @@ function App() {
               },
             ]}
             formProps={{
-              defaultValues: {
-                email: "info@refine.dev",
-                password: "refine-supabase",
-              },
+              // defaultValues: {
+              //   email: "info@refine.dev",
+              //   password: "refine-supabase",
+              // },
             }}
           />
         )}
