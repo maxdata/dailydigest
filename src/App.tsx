@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Refine } from "@pankod/refine-core";
 import {
   AuthPage,
@@ -11,11 +9,11 @@ import {
 } from "@pankod/refine-chakra-ui";
 
 import { dataProvider, liveProvider } from "@pankod/refine-supabase";
-import { ChakraUIInferencer } from "@pankod/refine-inferencer/chakra-ui";
 import routerProvider from "@pankod/refine-react-router-v6";
 import { supabaseClient } from "utility";
 import { Title, Sider, Layout, Header } from "components/layout";
 import authProvider from "./authProvider";
+import { PostCreate, PostEdit, PostList, PostShow } from "pages";
 
 function App() {
   return (
@@ -64,11 +62,11 @@ function App() {
         resources={[
           {
             name: "posts",
-            list: ChakraUIInferencer,
-            edit: ChakraUIInferencer,
-            show: ChakraUIInferencer,
-            create: ChakraUIInferencer,
-            canDelete: true,
+            list: PostList,
+            create: PostCreate,
+            edit: PostEdit,
+            show: PostShow,            
+            // canDelete: true,
           },
         ]}
         Title={Title}
