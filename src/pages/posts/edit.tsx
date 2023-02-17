@@ -25,12 +25,12 @@ export const PostEdit = () => {
     const { options } = useSelect({
         resource: "categories",
 
-        defaultValue: queryResult?.data?.data.category.id,
-        queryOptions: { enabled: !!queryResult?.data?.data.category.id },
+        defaultValue: queryResult?.data?.data.category_id,
+        queryOptions: { enabled: !!queryResult?.data?.data.category_id },
     });
 
     useEffect(() => {
-        resetField("category.id");
+        resetField("category_id");
     }, [options]);
 
     return (
@@ -68,7 +68,7 @@ export const PostEdit = () => {
                 <Select
                     id="ca"
                     placeholder="Select Category"
-                    {...register("category.id", {
+                    {...register("category_id", {
                         required: true,
                     })}
                 >

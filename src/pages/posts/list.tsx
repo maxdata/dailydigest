@@ -63,10 +63,10 @@ export const PostList: React.FC = () => {
                 },
             },
             {
-                id: "category.id",
+                id: "category_id",
                 header: "Category",
                 enableColumnFilter: false,
-                accessorKey: "category.id",
+                accessorKey: "category_id",
                 cell: function render({ getValue, table }) {
                     const meta = table.options.meta as {
                         categoriesData: GetManyResponse<ICategory>;
@@ -81,10 +81,9 @@ export const PostList: React.FC = () => {
                 id: "createdAt",
                 header: "Created At",
                 accessorKey: "createdAt",
-                // use date format                
                 cell: function render({ getValue }) {
                     return (
-                        <DateField value={getValue() as string} format="MM/DD/YYYY" />
+                        <DateField value={getValue() as string} format="LLL" />
                     );
                 },
                 enableColumnFilter: false,
@@ -143,7 +142,9 @@ export const PostList: React.FC = () => {
         },
     });
 
-    const categoryIds = tableData?.data?.map((item) => item.category.id) ?? [];
+    const categoryIds = tableData?.data?.map((item) => item.category_id) ?? [];
+    console.log("tableData", tableData)    
+    
     const { data: categoriesData } = useMany<ICategory>({
         resource: "categories",
         ids: categoryIds,
@@ -151,6 +152,10 @@ export const PostList: React.FC = () => {
             enabled: categoryIds.length > 0,
         },
     });
+
+    console.log("categoryIds", categoryIds)
+    console.log("categoriesData", categoriesData)
+
 
     setOptions((prev) => ({
         ...prev,

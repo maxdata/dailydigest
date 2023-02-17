@@ -16,9 +16,9 @@ export const PostShow: React.FC = () => {
 
     const { data: categoryData } = useOne<ICategory>({
         resource: "categories",
-        id: record?.category.id || "",
+        id: record?.category_id || "",
         queryOptions: {
-            enabled: !!record?.category.id,
+            enabled: !!record?.category_id,
         },
     });
 

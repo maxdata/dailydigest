@@ -2640,10 +2640,10 @@
     tslib "^2.3.1"
     warn-once "^0.1.0"
 
-"@pankod/refine-inferencer@^2.0.2":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@pankod/refine-inferencer/-/refine-inferencer-2.6.0.tgz#f2704abdcb2992ce89d904dfd53d3969fa8a060f"
-  integrity sha512-MujX5gqerwagT0fAkB3Yh3/hSSVuRPB87GmvDW3K9zUMaciitgXx8CttHRo6oJY/HA0UDgG7vTq0K/NXwNwOdQ==
+"@pankod/refine-inferencer@2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@pankod/refine-inferencer/-/refine-inferencer-2.8.0.tgz#ced66c602bec3fe7bbccc5dc8feffe768a93c421"
+  integrity sha512-pkL8jZY/JRkIhkYi9wxgItAo8xVSGxTdKFVQTmphyZfJeFL1lA3iy9OjQgtAMbQ+Rpp9oX2ReUxFIUSWONHG+g==
   dependencies:
     "@aliemir/react-live" "^4.0.0"
     "@pankod/refine-core" "^3.97.0"
@@ -2679,10 +2679,10 @@
   dependencies:
     "@tanstack/react-table" "^8.2.6"
 
-"@pankod/refine-supabase@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@pankod/refine-supabase/-/refine-supabase-4.1.0.tgz#c11909e45a275e04c1aaf4ce95ff92536c4a6160"
-  integrity sha512-rMAKkjbZPG50j8fgWPFteQ5v+Zq46y3a8CNYGkH2hkOoeeJi4jobEigNJ8h5TnK9L/UewvLOKDFCL+i9mG0yUg==
+"@pankod/refine-supabase@4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@pankod/refine-supabase/-/refine-supabase-4.1.2.tgz#7a128c75ab129623eed6d1a6764028f0d7f539a3"
+  integrity sha512-lvVpablFiGo3z0zgrDdwREz3p5czoaf5vW8OHJkhcGkLfZrQ9YC8L/A/j4YuTiBqyqp55dJJ27ym0F/LHDfoOg==
   dependencies:
     "@supabase/supabase-js" "^2.7.0"
 
