@@ -1,8 +1,7 @@
 import { AuthProvider, Refine } from "@pankod/refine-core";
 import {
     AuthPage,
-    ChakraProvider,
-    Layout,
+    ChakraProvider,    
     ErrorComponent,
     ReadyPage,
     refineTheme,
@@ -13,6 +12,7 @@ import routerProvider from "@pankod/refine-react-router-v6";
 import { IconBrandGoogle, IconBrandGithub } from "@tabler/icons";
 import { PostCreate, PostEdit, PostList, PostShow } from "./pages";
 import { supabaseClient } from "utility/supabaseClient";
+import { Title, Sider, Layout, Header } from "components/layout";
 
 const App: React.FC = () => {
     const authProvider: AuthProvider = {
@@ -132,7 +132,10 @@ const App: React.FC = () => {
                 )}
                 ReadyPage={ReadyPage}
                 catchAll={<ErrorComponent />}
+                Title={Title}
+                Sider={Sider}
                 Layout={Layout}
+                Header={Header}
                 resources={[
                     {
                         name: "posts",
