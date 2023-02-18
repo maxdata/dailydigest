@@ -141,8 +141,9 @@ const App: React.FC = () => {
                         name: "posts",
                         list: PostList,
                         show: PostShow,
-                        edit: PostEdit,
-                        create: PostCreate,
+                        // use Drawer for edit and create
+                        // edit: PostEdit,
+                        // create: PostCreate,
                     },
                 ]}
             />

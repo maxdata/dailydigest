@@ -18,12 +18,33 @@ import {
     Select,
     DateField,
 } from "@pankod/refine-chakra-ui";
+import { useModalForm } from "@pankod/refine-react-hook-form";
 
-import { ColumnFilter, ColumnSorter } from "../../components/table";
-import { Pagination } from "../../components/pagination";
-import { FilterElementProps, ICategory, IPost } from "../../interfaces";
+import {
+    ColumnFilter,
+    ColumnSorter,
+    Pagination,
+    CreatePostDrawer,
+    EditPostDrawer,
+} from "components";
+
+import { FilterElementProps, ICategory, IPost } from "interfaces";
 
 export const PostList: React.FC = () => {
+    const createDrawerFormProps = useModalForm<IPost>({
+        refineCoreProps: { action: "create" },
+    });
+    const {
+        modal: { show: showCreateDrawer },
+    } = createDrawerFormProps;
+
+    const editDrawerFormProps = useModalForm<IPost>({
+        refineCoreProps: { action: "edit" },
+    });
+    const {
+        modal: { show: showEditDrawer },
+    } = editDrawerFormProps;
+
     const columns = React.useMemo<ColumnDef<IPost>[]>(
         () => [
             {
@@ -63,10 +84,10 @@ export const PostList: React.FC = () => {
                 },
             },
             {
-                id: "category_id",
+                id: "category.id",
                 header: "Category",
                 enableColumnFilter: false,
-                accessorKey: "category_id",
+                accessorKey: "category.id",
                 cell: function render({ getValue, table }) {
                     const meta = table.options.meta as {
                         categoriesData: GetManyResponse<ICategory>;
@@ -97,7 +118,7 @@ export const PostList: React.FC = () => {
                 cell: function render({ getValue }) {
                     return (
                         <HStack>
-                            <ShowButton
+                             <ShowButton
                                 hideText
                                 size="sm"
                                 recordItemId={getValue() as number}
@@ -105,9 +126,11 @@ export const PostList: React.FC = () => {
                             <EditButton
                                 hideText
                                 size="sm"
-                                recordItemId={getValue() as number}
+                                onClick={() =>
+                                    showEditDrawer(getValue() as number)
+                                }
                             />
-                            <DeleteButton
+                             <DeleteButton
                                 hideText
                                 size="sm"
                                 recordItemId={getValue() as number}
@@ -117,7 +140,7 @@ export const PostList: React.FC = () => {
                 },
             },
         ],
-        [],
+        [showEditDrawer],
     );
 
     const {
@@ -143,8 +166,6 @@ export const PostList: React.FC = () => {
     });
 
     const categoryIds = tableData?.data?.map((item) => item.category_id) ?? [];
-    console.log("tableData", tableData)    
-    
     const { data: categoriesData } = useMany<ICategory>({
         resource: "categories",
         ids: categoryIds,
@@ -152,10 +173,6 @@ export const PostList: React.FC = () => {
             enabled: categoryIds.length > 0,
         },
     });
-
-    console.log("categoryIds", categoryIds)
-    console.log("categoriesData", categoriesData)
-
 
     setOptions((prev) => ({
         ...prev,
@@ -166,70 +183,75 @@ export const PostList: React.FC = () => {
     }));
 
     return (
-        <List>
-            <TableContainer>
-                <Table variant="simple" whiteSpace="pre-line">
-                    <Thead>
-                        {getHeaderGroups().map((headerGroup) => (
-                            <Tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <Th key={header.id}>
-                                            {!header.isPlaceholder && (
-                                                <HStack spacing="xs">
-                                                    <Box>
-                                                        {flexRender(
-                                                            header.column
-                                                                .columnDef
-                                                                .header,
-                                                            header.getContext(),
-                                                        )}
-                                                    </Box>
-                                                    <HStack spacing="xs">
-                                                        <ColumnSorter
-                                                            column={
-                                                                header.column
-                                                            }
-                                                        />
-                                                        <ColumnFilter
-                                                            column={
-                                                                header.column
-                                                            }
-                                                        />
-                                                    </HStack>
-                                                </HStack>
-                                            )}
-                                        </Th>
-                                    );
-                                })}
-                            </Tr>
-                        ))}
-                    </Thead>
-                    <Tbody>
-                        {getRowModel().rows.map((row) => {
-                            return (
-                                <Tr key={row.id}>
-                                    {row.getVisibleCells().map((cell) => {
+        <>
+            <List createButtonProps={{ onClick: () => showCreateDrawer() }}>
+                <TableContainer whiteSpace="pre-line">
+                    <Table variant="simple">
+                        <Thead>
+                            {getHeaderGroups().map((headerGroup) => (
+                                <Tr key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => {
                                         return (
-                                            <Td key={cell.id}>
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext(),
+                                            <Th key={header.id}>
+                                                {!header.isPlaceholder && (
+                                                    <HStack spacing="xs">
+                                                        <Box>
+                                                            {flexRender(
+                                                                header.column
+                                                                    .columnDef
+                                                                    .header,
+                                                                header.getContext(),
+                                                            )}
+                                                        </Box>
+                                                        <HStack spacing="xs">
+                                                            <ColumnSorter
+                                                                column={
+                                                                    header.column
+                                                                }
+                                                            />
+                                                            <ColumnFilter
+                                                                column={
+                                                                    header.column
+                                                                }
+                                                            />
+                                                        </HStack>
+                                                    </HStack>
                                                 )}
-                                            </Td>
+                                            </Th>
                                         );
                                     })}
                                 </Tr>
-                            );
-                        })}
-                    </Tbody>
-                </Table>
-            </TableContainer>
-            <Pagination
-                current={current}
-                pageCount={pageCount}
-                setCurrent={setCurrent}
-            />
-        </List>
+                            ))}
+                        </Thead>
+                        <Tbody>
+                            {getRowModel().rows.map((row) => {
+                                return (
+                                    <Tr key={row.id}>
+                                        {row.getVisibleCells().map((cell) => {
+                                            return (
+                                                <Td key={cell.id}>
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext(),
+                                                    )}
+                                                </Td>
+                                            );
+                                        })}
+                                    </Tr>
+                                );
+                            })}
+                        </Tbody>
+                    </Table>
+                </TableContainer>
+                <Pagination
+                    current={current}
+                    pageCount={pageCount}
+                    setCurrent={setCurrent}
+                />
+            </List>
+            <CreatePostDrawer {...createDrawerFormProps} />
+            <EditPostDrawer {...editDrawerFormProps} />
+        </>
     );
 };
